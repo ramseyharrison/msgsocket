@@ -1,13 +1,34 @@
 #include <vector>
 #include <string>
 #include <string.h>
-
+#include <list>
 enum class MessageType {
   Online,
-  Offline,
+  OnlineAwk,
+  GetUsersReq,
+  GetUsersResp,
+  Chat,
+  FetchChat, //called by client
+  FetchChatResp,//called b
+  Offline,  
   Error
 };
 
+struct Chat{
+  std::string _from;
+  std::list<std::string> _chats;
+
+  std::string from() {
+    return _from;
+  }
+  std::string str(){
+    std::string chats;
+    for(std::string s : _chats){
+      chats += (s + "\n");
+    }
+    return chats;
+  }
+};
 
 struct Message{
 private:
@@ -16,15 +37,21 @@ private:
   std::string _msg_data; 
   
 public:
+  
   Message(MessageType t, std::string data):
     _t(t)    
     , _msg_data(data)
     , _size(data.length()) {}
-
+  
+  Message(MessageType t) : //simple message without data
+    _t(t)
+    , _msg_data("")
+    , _size(0) {}
+  
   Message() : _size(0) {}
 
   std::string str();
-  
+  std::string to_bytes();
   static Message from_string(std::string);
   static MessageType int_to_type(int);
   std::size_t getSize(){

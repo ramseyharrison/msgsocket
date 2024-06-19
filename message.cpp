@@ -1,6 +1,6 @@
 #include "message.h"
 
-std::string Message::str(){
+std::string Message::to_bytes(){
   std::string str;
   str.push_back('0' + (static_cast<int>(_t)));
   std::string size_str = std::to_string(_size);
@@ -9,6 +9,19 @@ std::string Message::str(){
   str += size_str;
   str += _msg_data;
   return str;
+}
+
+std::string Message::str(){ //printing nice response, only called by client
+  switch(_t){
+  case MessageType::OnlineAwk :    
+      return std::string("Connection Succesful");
+  case MessageType::GetUsersResp:
+  case MessageType::FetchChatResp:
+    return getMsg();
+  default:
+    printf("error : user shouldn't be here\n");
+    return NULL;
+  }
 }
 
 Message Message::from_string(std::string message){
@@ -24,7 +37,17 @@ MessageType Message::int_to_type(int t){
   case 0:
     return MessageType::Online;
   case 1:
-    return MessageType::Offline;
+    return MessageType::OnlineAwk;
+  case 2:
+    return MessageType::GetUsersReq;
+  case 3:
+    return MessageType::GetUsersResp;
+  case 4:
+    return MessageType::Chat;
+  case 5:
+    return MessageType::FetchChat;
+  case 6:
+    return MessageType::FetchChatResp;
   default:
     return MessageType::Error;
   }

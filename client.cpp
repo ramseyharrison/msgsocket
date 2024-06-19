@@ -8,6 +8,41 @@
 
 using namespace std;
 
+clientsocket * s;
+
+void prompt()
+{
+  bool await_response = false;
+  std::string response;
+  while(true){   
+    std::string input;
+    std::getline (std::cin,input);
+    if(input == "users"){      
+       Message reqUsers {MessageType::GetUsersReq};
+       *s << reqUsers.to_bytes();
+       await_response = true;
+    }else if(input == "chat"){
+      std::string destination;
+      std::string message;
+      cout << "enter destination : " << endl;
+      std::getline(std::cin,destination);
+      cout << "enter message : " << endl;
+      std::getline(std::cin, message);
+      Message chat {MessageType::Chat, destination + " " + message};
+      *s << chat.to_bytes();
+    }else if(input == "chats"){
+      Message fetch {MessageType::FetchChat};
+      *s << fetch.to_bytes();
+      await_response = true;
+    }
+    if(await_response){
+      *s >> response;
+      cout << Message::from_string(response).str() << endl;
+      await_response = false;
+    }
+  }
+}
+
 int main (int argc, char * argv[])
 {
   if (argc < 3) {
@@ -18,22 +53,17 @@ int main (int argc, char * argv[])
   std::string id;
   stringstream (argv[1]) >> port;
   stringstream (argv[2]) >> id;
-  clientsocket * s = new clientsocket("127.0.0.1", port);
+  s = new clientsocket("127.0.0.1", port);
   s->connect();
   stringstream output;
   Message m {MessageType::Online,id};
-  cout << "trying to send " << m.str().length() << endl;
-  //output << "CLIENT MESSAGE FROM " << id;
-  //cout << "client about to send: " << output.str().c_str() << endl;
-  std::string to_send = m.str();
-  cout << to_send << endl;
-  *s << m.str();
-  std::string test;
-  std::getline(std::cin,test);
-  /*string result;
+  *s << m.to_bytes();  
+  string result;
   *s >> result;
-  cout << "Received: {" << result << "}" << endl; */
-
-  s->close();
+  Message resp = Message::from_string(result);
+  assert(resp.getType() == MessageType::OnlineAwk);
+  cout <<  resp.str();
+  prompt();
+  s->close();  
   return 0;
 }
