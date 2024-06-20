@@ -2,7 +2,7 @@ CXX = clang++
 CXXFLAGS = -std=c++20 -g -I. # -Weverything
 
 SRCS = server.cpp client.cpp 
-LIBS = message.cpp httpmessage.cpp simplesocket.cpp  serversocket.h clientsocket.h  httpmessage.h 
+LIBS = message.cpp  simplesocket.cpp  serversocket.h clientsocket.h 
 
 all: client server
 
