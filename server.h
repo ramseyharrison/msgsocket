@@ -22,6 +22,7 @@ class Server{
  public:
 
   void add_chat(std::string from, std::string to, std::string chat){
+    const std::lock_guard<std::mutex> lock(chat_mutex);
     if(!_chat_map.contains(to))
       _chat_map[to] = std::unordered_map<std::string,ChatMsg>();
     if(!_chat_map[to].contains(from))
@@ -30,6 +31,7 @@ class Server{
   }
 
   std::string chats_to_bytes(std::string to){
+    const std::lock_guard<std::mutex> lock(chat_mutex);
     std::string str;
     std::unordered_map<std::string, ChatMsg> to_chats = _chat_map[to];
     for(auto& it: to_chats){
@@ -40,22 +42,6 @@ class Server{
     return str;
   }
 
-  void new_chat(std::string destination, std::string chat){
-    const std::lock_guard<std::mutex> lock(chat_mutex);    
-    if(!_chats.contains(destination))
-      _chats[destination] = std::list<std::string>();
-    
-    _chats[destination].push_back(chat);
-  }
-
-  std::string fetch_chats(std::string user){
-    std::string chats;
-    if(_chats.contains(user)){
-      for(std::string chat : _chats[user])
-	chats += chat + "\n";
-    }
-    return chats;
-  }
   
   int connection_count(){
     const std::lock_guard<std::mutex> lock(conn_mutex);

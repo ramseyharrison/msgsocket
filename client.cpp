@@ -30,10 +30,6 @@ void prompt()
       size_t sep = msg_data.find_first_of(' ');      
       std::string destination = std::string(msg_data,0,sep);
       std::string message = std::string(msg_data, sep + 1);
-      /*cout << "enter destination : " << endl;
-      std::getline(std::cin,destination);
-      cout << "enter message : " << endl;
-      std::getline(std::cin, message);*/
       Message chat {MessageType::Chat, destination + " " + message};
       *s << chat.to_bytes();
     }else if(input == "chats"){
