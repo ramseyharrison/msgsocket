@@ -1,9 +1,13 @@
-This directory contains wrapper classes meant to make life easier when
-writing C++ code using sockets.
+C++ chat app built on top of [this c++ TCP wrapper](https://github.com/plasma-umass/simplesocket).
+Messages are passed through the server, in which they are stored.
 
-Basically, to put up a server, use a *serversocket*; to write a
-client, use a *clientsocket*.  Each provide methods that let you use
-sockets like ordinary C++ streams, including the `>>` and `<<`
-operators.
+The syntax for sending a message is :
+```
+chat [username] [message, which can include spaces].
 
-The included server and client examples show how to use the API.
+```
+You can see your message inbox by using the ```chats``` command.
+
+And see list of online users with ```users```.
+
+Additionally, messages can be sent to users even when they are not connected. 
