@@ -14,21 +14,6 @@ enum class MessageType {
   Error
 };
 
-struct Chat{
-  std::string _from;
-  std::list<std::string> _chats;
-
-  std::string from() {
-    return _from;
-  }
-  std::string str(){
-    std::string chats;
-    for(std::string s : _chats){
-      chats += (s + "\n");
-    }
-    return chats;
-  }
-};
 
 struct Message{
 private:

@@ -14,7 +14,7 @@ std::string Message::to_bytes(){
 std::string Message::str(){ //printing nice response, only called by client
   switch(_t){
   case MessageType::OnlineAwk :    
-      return std::string("Connection Succesful");
+      return std::string("Connection Succesful\n");
   case MessageType::GetUsersResp:
   case MessageType::FetchChatResp:
     return getMsg();

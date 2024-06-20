@@ -38,10 +38,8 @@ void * serve (void * cv)
     switch(m.getType()){
     case MessageType::Online : {
       username = m.getMsg();
-      cout << "user " << username << " is now online" << endl;
-    
+      cout << "user " << username << " is now online" << endl;    
       Message resp {MessageType::OnlineAwk};
-      printf("sending %s\n", resp.to_bytes().c_str());
       *c << resp.to_bytes();
       server.add_connection(username);
       break;
@@ -53,8 +51,7 @@ void * serve (void * cv)
     }
     case MessageType::Chat : {
       std::string chat = std::string(m.to_bytes(), 5);
-      std::string destination =
-	std::string(chat.begin(), chat.begin() + chat.find_first_of(' '));
+      std::string destination =	std::string(chat.begin(), chat.begin() + chat.find_first_of(' '));
       std::string text = std::string(chat, chat.find_first_of(' ') + 1);
       server.add_chat(username, destination, text);
       cout << server.chats_to_bytes(destination) << endl;

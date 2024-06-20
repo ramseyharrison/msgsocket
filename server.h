@@ -33,9 +33,8 @@ class Server{
     std::string str;
     std::unordered_map<std::string, ChatMsg> to_chats = _chat_map[to];
     for(auto& it: to_chats){
-      str += "From : " + it.first + "\n";
       for(auto &msg : it.second.messages){
-	str += "- " + msg + "\n";
+	str += "<" + it.first + ">" + ":" + msg + "\n";
       }
     }
     return str;

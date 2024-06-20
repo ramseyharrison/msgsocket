@@ -1,13 +1,17 @@
-#include <string>
 #include <iostream>
-#include <list>
+#include <regex>
+#include <string> 
 
-int main(){
-  std::list<std::string> connections; 
-  connections.push_back("ramsey");
-  std::list<std::string>::iterator it = connections.begin();
-  connections.insert(connections.begin(),"john");
-  printf("first element %s\n",connections.front().c_str());
-  connections.erase(connections.begin());
-  printf("element at iterator : %s\n",(*it).c_str());
+using namespace std;
+
+int main()
+{
+
+    regex reg("chat [\\w]+ [\\w " "]+");
+    if (regex_search("chat potato hi", reg))
+        cout << "matched" << endl;
+    else
+        cout << "not matched" << endl;
+
+    return 0;
 }
