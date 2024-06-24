@@ -1,4 +1,4 @@
-Multithread C++ chat server and app built on top of [this C++ TCP wrapper](https://github.com/plasma-umass/simplesocket).
+Multithreaded C++ chat server and app built on top of [this C++ TCP wrapper](https://github.com/plasma-umass/simplesocket).
 
 Messages are passed through the server, in which they are stored (see ```server.h``` for details)
 
